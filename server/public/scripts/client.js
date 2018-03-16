@@ -7,6 +7,7 @@ class Values {
         this.num1 = firstIn;
         this.num2 = secondIn;
         this.operator = " ";
+        this.answer = " "
     }
 }
 
@@ -28,24 +29,39 @@ function addNum(){
 }
 
 function subNum(){
-
+    let value = getValues();
+    value.operator = 'subtract';
+    sendToServer(value);
 }
 
 function multiNum(){
-
+    let value = getValues();
+    value.operator = 'multiply';
+    sendToServer(value);
 }
 
 function divNum(){
-
+    let value = getValues();
+    value.operator = 'divide';
+    sendToServer(value);
 }
 
 function updateHistory(){
-
+    $.ajax({
+        type: 'GET',
+        url: '/value'
+    }).done(function(response){
+        console.log(response);
+        appendToDom(response);
+    })
 }
 
 function getValues(){
     let num1 = $('#number1').val();
     let num2 = $('#number2').val();
+
+    num1 = parseInt(num1);
+    num2 = parseInt(num2);
 
     let numbers = new Values(num1, num2);
 
@@ -62,9 +78,13 @@ function sendToServer(value){
     }).done(function (response) {//need to wait till post request sends back response before doing get 
         //response from a post will just be 200 sucess
         console.log(response);
+        updateHistory();
      
     }).fail(function (response) {
         alert('something went wrong');
     });
+}
+
+function appendToDom(history){
 
 }
