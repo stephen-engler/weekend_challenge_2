@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 8080;
 app.use(express.static('server/public'));
 
 app.post('/value', (req,res)=>{
-    let value = req.body
+    let value = req.body;
     console.log(value);
     calculate(value);
     history.push(value);
@@ -33,16 +33,16 @@ app.listen(PORT, () => {
 
 
 function calculate(values){
-    if(values.operator === 'add'){
+    if(values.operator === '+'){
         values.answer = parseInt(values.num1) + parseInt(values.num2);
     }
-    else if(values.operator === 'subtract'){
+    else if(values.operator === '-'){
         values.answer = parseInt(values.num1) - parseInt(values.num2);
     }
-    else if (values.operator === 'multiply') {
+    else if (values.operator === '*') {
         values.answer = parseInt(values.num1) * parseInt(values.num2);
     } 
-    else if (values.operator === 'divide') {
+    else if (values.operator === '/') {
         values.answer = parseInt(values.num1) / parseInt(values.num2);
     }
 }

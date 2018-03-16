@@ -7,7 +7,7 @@ class Values {
         this.num1 = firstIn;
         this.num2 = secondIn;
         this.operator = " ";
-        this.answer = " "
+        this.answer = " ";
     }
 }
 
@@ -24,25 +24,25 @@ function readyNow(){
 
 function addNum(){
     let value = getValues();
-    value.operator = 'add';
+    value.operator = '+';
     sendToServer(value);
 }
 
 function subNum(){
     let value = getValues();
-    value.operator = 'subtract';
+    value.operator = '-';
     sendToServer(value);
 }
 
 function multiNum(){
     let value = getValues();
-    value.operator = 'multiply';
+    value.operator = '*';
     sendToServer(value);
 }
 
 function divNum(){
     let value = getValues();
-    value.operator = 'divide';
+    value.operator = '/';
     sendToServer(value);
 }
 
@@ -53,7 +53,7 @@ function updateHistory(){
     }).done(function(response){
         console.log(response);
         appendToDom(response);
-    })
+    });
 }
 
 function getValues(){
@@ -86,5 +86,22 @@ function sendToServer(value){
 }
 
 function appendToDom(history){
+    $('#history').empty();
+    history.forEach(function(values){
+        let table = $('<tr></tr>');
 
+        table.append('<td>'+values.num1+'</td>');
+        table.append('<td>' + values.operator + '</td>');
+        table.append('<td>' + values.num2 + '</td>');
+        table.append('<td> = </td>');
+        table.append('<td>' + values.answer + '</td>');
+
+        $('#history').append(table);
+    });
+    let last = history.length -1;
+    let answer = history[last].answer;
+
+    console.log(answer);
+
+    $('#output').text('Answer: '+ answer);
 }
