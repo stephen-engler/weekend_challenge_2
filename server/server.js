@@ -8,7 +8,10 @@ const PORT = process.env.PORT || 8080;
 
 app.use(express.static('server/public'));
 
-
+app.post('/value', (req,res)=>{
+    console.log(req.body);
+    res.sendStatus(200);
+});
 
 
 
