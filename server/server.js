@@ -21,6 +21,11 @@ app.get('/value', (req, res)=>{
     res.send(history);
 });
 
+app.delete('/value', (req, res)=>{
+    history = [];
+    res.send(history);
+});
+
 
 
 

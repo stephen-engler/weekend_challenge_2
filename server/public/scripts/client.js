@@ -17,6 +17,7 @@ function readyNow(){
     $('#subtract').on('click', subNum);
     $('#multiply').on('click', multiNum);
     $('#divide').on('click', divNum);
+    $('#clear').on('click',clearFromServer);
     updateHistory();
 
 }
@@ -99,9 +100,30 @@ function appendToDom(history){
         $('#history').append(table);
     });
     let last = history.length -1;
-    let answer = history[last].answer;
+    
+    if(last >=0){
+        let answer = history[last].answer;
 
-    console.log(answer);
+        console.log(answer);
 
-    $('#output').text('Answer: '+ answer);
+        $('#output').text('Answer: ' + answer);
+    }
+}
+
+function clearFromServer(){
+    $.ajax({
+        url: '/value',
+        type: 'DELETE',
+        success: function(result){
+            console.log('result');
+            clearInputs();
+        }
+    });
+}
+
+function clearInputs(){
+    $('#number1').val('');
+    $('#number2').val('');
+    $('#output').text('Answer: ');
+    $('#history').empty();
 }
