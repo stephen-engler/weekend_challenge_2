@@ -7,7 +7,7 @@ let calc;//declares calc as a global variable so other functions have access whe
 let storedNumber;//stores the number pressed as a global
 
 let computationDone=false;//
-
+//makes a class Values that will be sent to server
 class Values {
     constructor(firstIn){
         this.num1 = firstIn;
@@ -16,13 +16,13 @@ class Values {
         this.answer = " ";
     }
 }
-
+//on doc load, sets up event listeners and updates history
 function readyNow(){
     console.log('document loaded');
     addClickHandlers();    
     updateHistory();
 }
-
+//adds event handlers
 function addClickHandlers(){
     $('#clear').on('click', clearFromServer);
     $('#enter').on('click', compute);
@@ -31,14 +31,14 @@ function addClickHandlers(){
     $('#delete').on('click', clearInputs);
     $('.operator').on('click', getOperator);
 }
-
+//get the operator for the button clicked
 function getOperator(){
     calc = new Values(storedNumber);//makes new value object with stored number
     calc.operator = $(this).data('operator'); //adds the operator to the object
     storedNumber = "";//clears storedNumber now that it is in the object
     $('#numberText').val(calc.num1 + calc.operator);//updates the text box with new values
 }
-
+//GETs the history from the server
 function updateHistory(){
     $.ajax({
         type: 'GET',
@@ -49,7 +49,7 @@ function updateHistory(){
         appendToDom(response);
     });
 }
-
+//POSTs the new computation to the server, updates history on response
 function sendToServer(value){
     $.ajax({
         type: 'POST',
@@ -64,7 +64,7 @@ function sendToServer(value){
         alert('something went very very very wrong');
     });
 }
-
+//appends the history from server to dom
 function appendToDom(history){
     $('#history').empty();//clears history
     history.forEach(function(values){//loops through history array and appends to dom
@@ -88,7 +88,7 @@ function appendToDom(history){
         $('#output').text('Answer: ' + answer);
     }
 }
-
+//DELETEs the history array server side
 function clearFromServer(){
     $.ajax({
         url: '/value',
@@ -100,12 +100,12 @@ function clearFromServer(){
         }
     });
 }
-
+//clears inputs
 function clearInputs(){
     $('#numberText').val('');
     $('#output').text('Answer: ');
 }
-
+//gets the number data from button clicked, updates the text box
 function getNumber(){   
     if(computationDone){//clears the inputs if the computation is Complete, essentially resets if a new calculation
         $('#numberText').val('');
@@ -117,7 +117,7 @@ function getNumber(){
     $('#numberText').val(screenText + num);//updates the text box with new value
     storedNumber = num;//stores the num in the global variable for future use
 }
-
+//gets last number, updates the text box and calls sendToServer with complete Calc
 function compute(){
     calc.num2 = storedNumber;//adds global number to object
     let screenText = $('#numberText').val();//updates screen
@@ -126,7 +126,7 @@ function compute(){
     computationDone = true;//sets global to true so other functions know to clear inputs on next number click
     calc = " ";//clears the global calc variable after it's sent to the server
 }
-
+//gets past data object from history table
 function getTheData(){
     let pastCalc = $(this).data('calculation');//gets the object data stored in table
     console.log(pastCalc);
