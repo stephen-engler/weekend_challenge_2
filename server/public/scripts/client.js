@@ -6,6 +6,8 @@ let calc;
 
 let storedNumber;
 
+let computationDone=false;
+
 class Values {
     constructor(firstIn){
         this.num1 = firstIn;
@@ -24,7 +26,8 @@ function readyNow(){
     $('#clear').on('click',clearFromServer);
     $('#enter').on('click', compute);
     $('.number').on('click', getNumber);
-    $('#history').on('click','.pastCalc', getTheData)
+    $('#history').on('click','.pastCalc', getTheData);
+    $('#delete').on('click', clearInputs);
     updateHistory();
 }
 
@@ -114,17 +117,21 @@ function clearFromServer(){
         success: function(result){
             console.log('result');
             clearInputs();
+            $('#history').empty();
         }
     });
 }
 
 function clearInputs(){
-    $('#number').val('');
+    $('#numberText').val('');
     $('#output').text('Answer: ');
-    $('#history').empty();
 }
 
-function getNumber(){
+function getNumber(){   
+    if(computationDone){
+        $('#numberText').val('');
+        computationDone=false;
+    } 
     let num = $(this).data('number');
     console.log(num);
     let screenText = $('#numberText').val();
@@ -137,10 +144,12 @@ function compute(){
     let screenText = $('#numberText').val();
     $('#numberText').val(screenText + '=');
     sendToServer(calc);
+    computationDone = true;
     calc = " ";
 }
 
 function getTheData(){
     let pastCalc = $(this).data('calculation');
     console.log(pastCalc);
+    $('#numberText').val(pastCalc.num1 + pastCalc.operator + pastCalc.num2 + '=' + pastCalc.answer);
 }
