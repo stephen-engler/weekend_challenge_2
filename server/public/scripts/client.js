@@ -2,11 +2,11 @@ console.log('in client');
 
 $(document).ready(readyNow);
 
-let calc;
+let calc;//declares calc as a global variable so other functions have access when it's an object
 
-let storedNumber;
+let storedNumber;//stores the number pressed as a global
 
-let computationDone=false;
+let computationDone=false;//
 
 class Values {
     constructor(firstIn){
@@ -19,44 +19,24 @@ class Values {
 
 function readyNow(){
     console.log('document loaded');
-    $('#add').on('click', addNum);
-    $('#subtract').on('click', subNum);
-    $('#multiply').on('click', multiNum);
-    $('#divide').on('click', divNum);
-    $('#clear').on('click',clearFromServer);
-    $('#enter').on('click', compute);
-    $('.number').on('click', getNumber);
-    $('#history').on('click','.pastCalc', getTheData);
-    $('#delete').on('click', clearInputs);
+    addClickHandlers();    
     updateHistory();
 }
 
-function addNum(){
-    calc = new Values(storedNumber);
-    calc.operator = '+';
-    storedNumber = "";
-    $('#numberText').val(calc.num1 + calc.operator);
+function addClickHandlers(){
+    $('#clear').on('click', clearFromServer);
+    $('#enter').on('click', compute);
+    $('.number').on('click', getNumber);
+    $('#history').on('click', '.pastCalc', getTheData);
+    $('#delete').on('click', clearInputs);
+    $('.operator').on('click', getOperator);
 }
 
-function subNum(){
-    calc = new Values(storedNumber);
-    calc.operator = '-';
-    storedNumber = "";
-    $('#numberText').val(calc.num1 + calc.operator);
-}
-
-function multiNum(){
-    calc = new Values(storedNumber);
-    calc.operator = '*';
-    storedNumber = "";
-    $('#numberText').val(calc.num1 + calc.operator);
-}
-
-function divNum(){
-    calc = new Values(storedNumber);
-    calc.operator = '/';
-    storedNumber = "";
-    $('#numberText').val(calc.num1 + calc.operator);
+function getOperator(){
+    calc = new Values(storedNumber);//makes new value object with stored number
+    calc.operator = $(this).data('operator'); //adds the operator to the object
+    storedNumber = "";//clears storedNumber now that it is in the object
+    $('#numberText').val(calc.num1 + calc.operator);//updates the text box with new values
 }
 
 function updateHistory(){
@@ -65,6 +45,7 @@ function updateHistory(){
         url: '/value'
     }).done(function(response){
         console.log(response);
+        //appends the response from the server to the dom
         appendToDom(response);
     });
 }
@@ -74,19 +55,19 @@ function sendToServer(value){
         type: 'POST',
         data: value,
         url: '/value'
-    }).done(function (response) {//need to wait till post request sends back response before doing get 
-        //response from a post will just be 200 sucess
+    }).done(function (response) {
+        //updates the history only after a response is heard from server
         console.log(response);
         updateHistory();
      
     }).fail(function (response) {
-        alert('something went wrong');
+        alert('something went very very very wrong');
     });
 }
 
 function appendToDom(history){
-    $('#history').empty();
-    history.forEach(function(values){
+    $('#history').empty();//clears history
+    history.forEach(function(values){//loops through history array and appends to dom
         let table = $('<tr class="pastCalc"></tr>');
 
         table.append('<td>'+values.num1+'</td>');
@@ -94,18 +75,16 @@ function appendToDom(history){
         table.append('<td>' + values.num2 + '</td>');
         table.append('<td> = </td>');
         table.append('<td>' + values.answer + '</td>');
-        table.data('calculation', values);
+        table.data('calculation', values);//stores values in the table for future use
 
         $('#history').append(table);
     });
     let last = history.length -1;
     
-    if(last >=0){
+    if(last >=0){//checks to see if history array has any values in it
         let answer = history[last].answer;
-
-        console.log(answer);
-        let screenData=$('#numberText').val();
-        $('#numberText').val(screenData + answer);
+        let screenData=$('#numberText').val();//gets past calculations from text box
+        $('#numberText').val(screenData + answer);//adds answer to text box
         $('#output').text('Answer: ' + answer);
     }
 }
@@ -128,28 +107,28 @@ function clearInputs(){
 }
 
 function getNumber(){   
-    if(computationDone){
+    if(computationDone){//clears the inputs if the computation is Complete, essentially resets if a new calculation
         $('#numberText').val('');
         computationDone=false;
     } 
-    let num = $(this).data('number');
+    let num = $(this).data('number');//gets which number is pressed
     console.log(num);
-    let screenText = $('#numberText').val();
-    $('#numberText').val(screenText + num);
-    storedNumber = num;
+    let screenText = $('#numberText').val();//gets any past numbers and operators from text box
+    $('#numberText').val(screenText + num);//updates the text box with new value
+    storedNumber = num;//stores the num in the global variable for future use
 }
 
 function compute(){
-    calc.num2 = storedNumber;
-    let screenText = $('#numberText').val();
+    calc.num2 = storedNumber;//adds global number to object
+    let screenText = $('#numberText').val();//updates screen
     $('#numberText').val(screenText + '=');
-    sendToServer(calc);
-    computationDone = true;
-    calc = " ";
+    sendToServer(calc);//sends calc object to server
+    computationDone = true;//sets global to true so other functions know to clear inputs on next number click
+    calc = " ";//clears the global calc variable after it's sent to the server
 }
 
 function getTheData(){
-    let pastCalc = $(this).data('calculation');
+    let pastCalc = $(this).data('calculation');//gets the object data stored in table
     console.log(pastCalc);
-    $('#numberText').val(pastCalc.num1 + pastCalc.operator + pastCalc.num2 + '=' + pastCalc.answer);
+    $('#numberText').val(pastCalc.num1 + pastCalc.operator + pastCalc.num2 + '=' + pastCalc.answer);//puts data in text box
 }
