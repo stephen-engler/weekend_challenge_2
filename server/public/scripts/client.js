@@ -24,37 +24,36 @@ function readyNow(){
     $('#clear').on('click',clearFromServer);
     $('#enter').on('click', compute);
     $('.number').on('click', getNumber);
+    $('#history').on('click','.pastCalc', getTheData)
     updateHistory();
-
 }
-
 
 function addNum(){
     calc = new Values(storedNumber);
     calc.operator = '+';
     storedNumber = "";
-
+    $('#numberText').val('+');
 }
 
 function subNum(){
     calc = new Values(storedNumber);
     calc.operator = '-';
     storedNumber = "";
-
+    $('#numberText').val('-');
 }
 
 function multiNum(){
     calc = new Values(storedNumber);
     calc.operator = '*';
     storedNumber = "";
-
+    $('#numberText').val('*');
 }
 
 function divNum(){
     calc = new Values(storedNumber);
     calc.operator = '/';
     storedNumber = "";
-
+    $('#numberText').val('/');
 }
 
 function updateHistory(){
@@ -66,7 +65,6 @@ function updateHistory(){
         appendToDom(response);
     });
 }
-
 
 function sendToServer(value){
     $.ajax({
@@ -86,13 +84,14 @@ function sendToServer(value){
 function appendToDom(history){
     $('#history').empty();
     history.forEach(function(values){
-        let table = $('<tr></tr>');
+        let table = $('<tr class="pastCalc"></tr>');
 
         table.append('<td>'+values.num1+'</td>');
         table.append('<td>' + values.operator + '</td>');
         table.append('<td>' + values.num2 + '</td>');
         table.append('<td> = </td>');
         table.append('<td>' + values.answer + '</td>');
+        table.data('calculation', values);
 
         $('#history').append(table);
     });
@@ -102,7 +101,7 @@ function appendToDom(history){
         let answer = history[last].answer;
 
         console.log(answer);
-
+        $('#numberText').val(answer);
         $('#output').text('Answer: ' + answer);
     }
 }
@@ -119,8 +118,7 @@ function clearFromServer(){
 }
 
 function clearInputs(){
-    $('#number1').val('');
-    $('#number2').val('');
+    $('#number').val('');
     $('#output').text('Answer: ');
     $('#history').empty();
 }
@@ -128,6 +126,7 @@ function clearInputs(){
 function getNumber(){
     let num = $(this).data('number');
     console.log(num);
+    $('#numberText').val(num);
     storedNumber = num;
 }
 
@@ -135,4 +134,9 @@ function compute(){
     calc.num2 = storedNumber;
     sendToServer(calc);
     calc = " ";
+}
+
+function getTheData(){
+    let pastCalc = $(this).data('calculation');
+    console.log(pastCalc);
 }

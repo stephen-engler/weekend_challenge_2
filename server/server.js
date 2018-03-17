@@ -26,11 +26,6 @@ app.delete('/value', (req, res)=>{
     res.send(history);
 });
 
-
-
-
-
-
 //spin up server
 app.listen(PORT, () => {
     console.log('server is running on ' + PORT);
