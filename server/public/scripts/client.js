@@ -2,10 +2,14 @@ console.log('in client');
 
 $(document).ready(readyNow);
 
+let calc;
+
+let storedNumber;
+
 class Values {
-    constructor(firstIn, secondIn){
+    constructor(firstIn){
         this.num1 = firstIn;
-        this.num2 = secondIn;
+        this.num2 = " ";
         this.operator = " ";
         this.answer = " ";
     }
@@ -18,33 +22,39 @@ function readyNow(){
     $('#multiply').on('click', multiNum);
     $('#divide').on('click', divNum);
     $('#clear').on('click',clearFromServer);
+    $('#enter').on('click', compute);
+    $('.number').on('click', getNumber);
     updateHistory();
 
 }
 
 
 function addNum(){
-    let value = getValues();
-    value.operator = '+';
-    sendToServer(value);
+    calc = new Values(storedNumber);
+    calc.operator = '+';
+    storedNumber = "";
+
 }
 
 function subNum(){
-    let value = getValues();
-    value.operator = '-';
-    sendToServer(value);
+    calc = new Values(storedNumber);
+    calc.operator = '-';
+    storedNumber = "";
+
 }
 
 function multiNum(){
-    let value = getValues();
-    value.operator = '*';
-    sendToServer(value);
+    calc = new Values(storedNumber);
+    calc.operator = '*';
+    storedNumber = "";
+
 }
 
 function divNum(){
-    let value = getValues();
-    value.operator = '/';
-    sendToServer(value);
+    calc = new Values(storedNumber);
+    calc.operator = '/';
+    storedNumber = "";
+
 }
 
 function updateHistory(){
@@ -57,19 +67,6 @@ function updateHistory(){
     });
 }
 
-function getValues(){
-    let num1 = $('#number1').val();
-    let num2 = $('#number2').val();
-
-    num1 = parseInt(num1);
-    num2 = parseInt(num2);
-
-    let numbers = new Values(num1, num2);
-
-    console.log(numbers);
-
-    return numbers;
-}
 
 function sendToServer(value){
     $.ajax({
@@ -126,4 +123,16 @@ function clearInputs(){
     $('#number2').val('');
     $('#output').text('Answer: ');
     $('#history').empty();
+}
+
+function getNumber(){
+    let num = $(this).data('number');
+    console.log(num);
+    storedNumber = num;
+}
+
+function compute(){
+    calc.num2 = storedNumber;
+    sendToServer(calc);
+    calc = " ";
 }
