@@ -32,28 +32,28 @@ function addNum(){
     calc = new Values(storedNumber);
     calc.operator = '+';
     storedNumber = "";
-    $('#numberText').val('+');
+    $('#numberText').val(calc.num1 + calc.operator);
 }
 
 function subNum(){
     calc = new Values(storedNumber);
     calc.operator = '-';
     storedNumber = "";
-    $('#numberText').val('-');
+    $('#numberText').val(calc.num1 + calc.operator);
 }
 
 function multiNum(){
     calc = new Values(storedNumber);
     calc.operator = '*';
     storedNumber = "";
-    $('#numberText').val('*');
+    $('#numberText').val(calc.num1 + calc.operator);
 }
 
 function divNum(){
     calc = new Values(storedNumber);
     calc.operator = '/';
     storedNumber = "";
-    $('#numberText').val('/');
+    $('#numberText').val(calc.num1 + calc.operator);
 }
 
 function updateHistory(){
@@ -101,7 +101,8 @@ function appendToDom(history){
         let answer = history[last].answer;
 
         console.log(answer);
-        $('#numberText').val(answer);
+        let screenData=$('#numberText').val();
+        $('#numberText').val(screenData + answer);
         $('#output').text('Answer: ' + answer);
     }
 }
@@ -126,12 +127,15 @@ function clearInputs(){
 function getNumber(){
     let num = $(this).data('number');
     console.log(num);
-    $('#numberText').val(num);
+    let screenText = $('#numberText').val();
+    $('#numberText').val(screenText + num);
     storedNumber = num;
 }
 
 function compute(){
     calc.num2 = storedNumber;
+    let screenText = $('#numberText').val();
+    $('#numberText').val(screenText + '=');
     sendToServer(calc);
     calc = " ";
 }
