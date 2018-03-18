@@ -6,7 +6,7 @@ let calc; //declares calc as a global variable so other functions have access wh
 
 let storedNumber; //stores the number pressed as a global
 
-let computationDone = false; //
+let computationDone = false; // used for checking is user is done entering numbers
 
 let allNumbersEntered = false;
 
@@ -72,7 +72,7 @@ function appendToDom(history) {
     $('#history').empty(); //clears history
     history.forEach(function (values) { //loops through history array and appends to dom
         let table = $('<tr class="pastCalc"></tr>');
-        table.data('calculation', values); //stores values in th        table for future use
+        table.data('calculation', values); //stores values in the table for future use
 
 
         
