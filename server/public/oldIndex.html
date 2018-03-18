@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Calculator</title>
+    <script src="vendors/jquery-3.3.1.js"></script>
+    <script src="scripts/client.js"></script>
+    <link rel="stylesheet" href="vendors/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles/styles.css">
+</head>
+<body>
+    <div id="input" class="container">
+        <h1>Calculator!</h1>
+        <input type="text" id="numberText" placeholder="Number"><br>
+        <div class="btn-group  rounded p-3 justify-content-md-center">
+        
+        <table class="calcTable">
+            <tbody>
+                <tr>
+                    <td><button class="number btn-lg" id="1" data-number="1">1</button></td>
+                    <td><button class="number btn-lg" id="2" data-number="2">2</button></td>
+                    <td><button class="number btn-lg" id="3" data-number="3">3</button></td>
+                    <td><button class ="operator btn-lg"id="add" data-operator="+">+</button></td>
+                </tr>
+                <tr>
+                    <td><button class="number btn-lg" id="4" data-number="4">4</button></td>
+                    <td><button class="number btn-lg"id="5" data-number="5">5</button></td>
+                    <td><button class="number btn-lg"id="6" data-number="6">6</button></td>
+                    <td> <button class ="operator btn-lg" id="subtract" data-operator="-">-</button></td>
+                </tr>
+                <tr>
+                    <td><button class="number btn-lg"id="7" data-number="7">7</button></td>
+                    <td><button class="number btn-lg"id="8" data-number="8">8</button></td>
+                    <td><button class="number btn-lg" id="9" data-number="9">9</button></td>
+                    <td><button class ="operator btn-lg" id="multiply" data-operator="*">*</button></td>
+                </tr>
+                <tr>
+                    <td><button id="clear" class = "btn-lg">Cl</button></td>
+                    <td><button class="number btn-lg" id="0" data-number="0">0</button></td>
+                    <td><button id="delete" class = "btn-lg">Del</button></td>
+                    <td><button class ="operator btn-lg" id="divide" data-operator="/">/</button></td>
+
+                </tr>
+            </tbody>
+        </table>
+        <button id="enter" class="col-md-4 btn-lg">Enter</button>
+        </div>
+    </div> 
+    <div>
+        <h2 id="output">Answer: </h2>
+    </div>  
+    <div>
+        <table>
+        <tbody id="history">
+        <!-- intentionally left blank-->
+        </tbody>
+        </table>
+    </div>   
+</body>
+</html>
