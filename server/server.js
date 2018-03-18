@@ -44,5 +44,6 @@ function calculate(values){
     } 
     else if (values.operator === '/') {
         values.answer = parseInt(values.num1) / parseInt(values.num2);
+        values.answer = values.answer.toFixed(2);
     }
 }

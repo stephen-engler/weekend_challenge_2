@@ -2,5 +2,23 @@ body {
     background-color: grey;
 }
 
+.numB {
+    background-color: whitesmoke;
+}
 
+.opB {
+    background-color: orange;
+}
 
+.clDelB {
+    background-color:  #f7c69b;
+}
+#numberText {
+    background-color: black;
+    color: whitesmoke;
+       border-radius: 10px;
+}
+.no-padding {
+    padding-right: 0 !important;
+    padding-left: 0 !important;
+}
