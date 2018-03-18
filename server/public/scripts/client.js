@@ -7,6 +7,7 @@ let calc; //declares calc as a global variable so other functions have access wh
 let storedNumber; //stores the number pressed as a global
 
 let computationDone = false; //
+
 //makes a class Values that will be sent to server
 class Values {
     constructor(firstIn) {
@@ -31,7 +32,7 @@ function addClickHandlers() {
     $('#delete').on('click', clearInputs);
     $('.operator').on('click', getOperator);
 }
-//get the operator for the button clicked
+//get the operator for thegit a button clicked
 function getOperator() {
     calc = new Values(storedNumber); //makes new value object with stored number
     calc.operator = $(this).data('operator'); //adds the operator to the object
@@ -104,18 +105,31 @@ function clearFromServer() {
 function clearInputs() {
     $('#numberText').val('');
     $('#output').text('Answer: ');
+    storedNumber='';
+    calc='';
 }
 //gets the number data from button clicked, updates the text box
 function getNumber() {
     if (computationDone) { //clears the inputs if the computation is Complete, essentially resets if a new calculation
         $('#numberText').val('');
+        storedNumber = '';
         computationDone = false;
     }
     let num = $(this).data('number'); //gets which number is pressed
     console.log(num);
     let screenText = $('#numberText').val(); //gets any past numbers and operators from text box
-    $('#numberText').val(screenText + num); //updates the text box with new value
-    storedNumber = num; //stores the num in the global variable for future use
+
+    let numString = num.toString();
+
+    console.log(numString);
+
+    $('#numberText').val(screenText + numString); //updates the text box with new value
+
+    //need to turn num into a string so can concatonate it onto stored number?
+
+
+
+    storedNumber += numString; //stores the num in the global variable for future use
 }
 //gets last number, updates the text box and calls sendToServer with complete Calc
 function compute() {
