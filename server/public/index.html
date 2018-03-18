@@ -5,10 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>bootstrap test calc</title>
+    <title>Calculate!</title>
     <script src="vendors/jquery-3.3.1.js"></script>
     <script src="scripts/client.js"></script>
     <link rel="stylesheet" href="vendors/css/bootstrap.min.css">
+    <link rel="stylesheet" href="vendors/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="styles/styles.css">
 </head>
 </head>
@@ -16,7 +17,7 @@
 <body>
     <div class="container" id="input">
         <div class="row">
-            <div class="col text-center">Calculate</div>
+            <div class="col text-center"><h1>Calculate</h1></div>
         </div>
     </div>
     <div class="container">
@@ -94,14 +95,21 @@
         </div>
     </div>
     <div>
-        <h2 id="output">Answer: </h2>
+
     </div>
-    <div>
-        <table>
-            <tbody id="history">
-                <!-- intentionally left blank-->
-            </tbody>
-        </table>
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-md-2 col-md-offset-5">
+                <div class="row">
+                            <h2>History</h2>
+                            <table class="table table-dark">
+                                <tbody id="history">
+                                    <!-- intentionally left blank-->
+                                </tbody>
+                            </table>
+                </div>
+            </div>
+        </div>
     </div>
 
 
